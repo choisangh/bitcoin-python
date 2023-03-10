@@ -31,6 +31,9 @@ if __name__ == '__main__':
     print("Transaction Signature: ", signature)
     print(alice_address)
 
+    block = miner.mine()
+    print(f"새로운 블록 채굴 완료: {block.to_dict()}")
+
     print("Bob's wallet balance: ", bob_wallet.balance)
     print("Alice's wallet balance: ", alice_wallet.balance)
 

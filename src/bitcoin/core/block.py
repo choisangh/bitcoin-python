@@ -29,9 +29,9 @@ class Block:
     def __init__(self, height, transactions, nonce, previous_hash):
         previous_hash = previous_hash or self.hash(self.chain[-1])
         self.block_header = BlockHeader(previous_hash=previous_hash,
-                                       merkleroot=self.get_merkle_tree(transactions),
-                                       difficultytarget=DIFFICULTY_TARGET,
-                                       nonce=nonce)
+                                        merkleroot=self.get_merkle_tree(transactions),
+                                        difficultytarget=DIFFICULTY_TARGET,
+                                        nonce=nonce)
         self.height = height
         self.transactions = transactions
         self.block_size = None
@@ -60,4 +60,20 @@ class Block:
             tree = [None]
 
         return tree[0]
+
+    def get_merkle_path(self, txns, index):
+        path = []
+        merkle_tree = self.get_merkle_tree(txns)
+        if index >= len(txns):
+            return path
+
+        current = index
+        for level in range(len(merkle_tree)):
+            if current % 2 == 0:
+                sibling = current + 1
+            else:
+                sibling = current - 1
+            path.append(merkle_tree[sibling])
+            current = current // 2
+        return path
 

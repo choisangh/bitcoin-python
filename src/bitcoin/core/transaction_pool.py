@@ -1,5 +1,5 @@
 class TransactionPool:
-    def __int__(self):
+    def __init__(self):
         self.pool = []
 
     def add_transaction(self, transaction):

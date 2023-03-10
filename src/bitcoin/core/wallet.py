@@ -1,7 +1,8 @@
 import binascii
 import hashlib
 import ecdsa
-from src.bitcoin.core.transaction import Transaction
+from .transaction import Transaction
+
 
 
 class Wallet:
@@ -29,6 +30,7 @@ class Wallet:
         return vk.verify(binascii.unhexlify(signature), message.encode())
 
     def send_transaction(self, recipient_address, amount):
+        from .globals import TRANSACTION_POOL
         # TODO : UTXO 방식으로 변경
         if self.balance < amount:
             print(f"잔액 부족 {self.balance}")
@@ -36,5 +38,6 @@ class Wallet:
         transaction = Transaction(self.public_key.to_string().hex(), self.private_key, recipient_address, amount)
         signature = transaction.sign_transaction()
 
+        TRANSACTION_POOL.add_transaction(transaction)
         return transaction, signature
 

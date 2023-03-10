@@ -22,13 +22,12 @@ class Blockchain:
         self.chain.append(block)
         return block
 
-    def new_transaction(self, sender, sender_private_key, recipient, amount, coinbase):
-        transaction = Transaction(sender, sender_private_key, recipient, amount)
+    def new_transaction(self, transaction: Transaction, coinbase=False):
         self.current_transactions.append(transaction.to_dict())
         self.adjust_balances(transaction, coinbase)
         return self.last_block.height + 1
 
-    def adjust_balances(self, transaction, coinbase):
+    def adjust_balances(self, transaction, coinbase=False):
         # TODO : UTXO 방식으로 변경
         # 블록 내 트랜잭션에서 송신 계좌와 수신 계좌의 주소와 금액을 추출
         sender_wallet = WALLET_MANAGER.get_wallet_by_public_key(transaction.sender_address)
