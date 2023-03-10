@@ -54,12 +54,7 @@ class Transaction:
         트랜잭션 해싱
         :return:
         """
-        transaction = {
-            'sender_address': self.sender_address,
-            'recipient_address': self.recipient_address,
-            'amount': self.amount,
-            'timestamp': self.timestamp
-        }
+        transaction = self.to_dict()
         transaction_string = json.dumps(transaction, sort_keys=True).encode('utf-8')
         return hashlib.sha256(transaction_string).hexdigest()
 

@@ -34,10 +34,11 @@ class Wallet:
         # TODO : UTXO 방식으로 변경
         if self.balance < amount:
             print(f"잔액 부족 {self.balance}")
-            return None
+            return None, None
         transaction = Transaction(self.public_key.to_string().hex(), self.private_key, recipient_address, amount)
         signature = transaction.sign_transaction()
 
         TRANSACTION_POOL.add_transaction(transaction)
+
         return transaction, signature
 

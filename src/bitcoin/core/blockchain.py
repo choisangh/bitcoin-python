@@ -39,8 +39,6 @@ class Blockchain:
 
         # 수신 계좌의 잔액을 변경
         recipient_wallet.adjust_balance(recipient_wallet.balance + amount)
-        print('수신완료')
-
 
     @staticmethod
     def hash(block):
