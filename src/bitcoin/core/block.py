@@ -47,6 +47,9 @@ class Block:
 
     @staticmethod
     def get_merkle_tree(txns):
+        if len(txns) == 0:
+            return [None]
+
         if len(txns) % 2 != 0:
             txns.append(txns[-1])
 
@@ -54,10 +57,9 @@ class Block:
                 for txn in txns]
 
         while len(tree) > 1:
+            if len(tree) % 2 != 0:
+                tree.append(tree[-1])
             tree = [hashlib.sha256((tree[i] + tree[i + 1]).encode()).hexdigest() for i in range(0, len(tree), 2)]
-
-        if len(txns) == 0:
-            tree = [None]
 
         return tree[0]
 
